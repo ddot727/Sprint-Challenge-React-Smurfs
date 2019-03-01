@@ -16,10 +16,20 @@ class App extends Component {
   componentDidMount() {
     axios.get('http://localhost:3333/smurfs')
     .then(res => {
-      this.setState({
-        smurfs: res.data
-      })})
+      this.setState({smurfs: res.data})
+    })
     .catch(err=> {
+      console.log(err)
+    })
+  }
+
+  addSmurf = (e, smurf) => {
+    e.preventDefault();
+    axios.post('http://localhost:3333/smurfs', smurf)
+    .then(res => {
+      this.setState({smurfs: res.data})
+    })
+    .catch(err => {
       console.log(err)
     })
   }
@@ -30,7 +40,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SmurfForm />
+        <SmurfForm addSmurf={this.addSmurf} />
         <Smurfs smurfs={this.state.smurfs} />
       </div>
     );
